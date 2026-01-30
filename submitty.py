@@ -25,7 +25,8 @@ class TestCase:
         return f"""{self.name}: {self.points_received}/{self.points_available} points\
 {"\nEXTRA CREDIT" if self.is_extra_credit else ""}\
 {"\nDetails: " + self.details if self.details != "" else ""}\
-{"\n" + self.testcase_message if self.testcase_message != "" else ""}"""
+{"\n" + self.testcase_message if self.testcase_message != "" else ""}
+"""
 
 
 class Gradeable:
@@ -44,11 +45,27 @@ class Gradeable:
 
     def __str__(self):
         outstr = f"Viewing gradeable {self.name}:\n"
+        outstr += f"Attempts used: {self.highest_version}\n"
+        outstr += f"Current score: {sum([x.points_received for x in self.test_cases])}/{self.total_points}\n"
+
         if len(self.test_cases) > 0:
-            outstr += "\t"
-            outstr += f"{"\n\t".join([str(t) for t in self.test_cases])}"
+            outstr += "Test Cases:\n\t"
+            outstr += f"{"\t".join([str(t) for t in self.test_cases])}"
         elif not self.autograding_complete:
-            outstr += "This gradeable has not been autograded."
+            outstr += "This gradeable has not been autograded.\n"
         else:
             outstr += "There are no test cases for this gradeable.\n"
+        outstr += f"This gradeable is worth {self.total_percent}% of your grade.\n"
         return outstr
+
+
+class SharedState:
+    def __init__(self, indict=dict()):
+        for k in indict.keys():
+            self[k] = indict[k]
+
+    def __getitem__(self, key):
+        return getattr(self, key)
+
+    def __setitem__(self, key, value):
+        setattr(self, key, value)
