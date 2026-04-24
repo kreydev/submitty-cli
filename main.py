@@ -26,7 +26,7 @@ def show_help():
     print("Modes:")
     print("\tcourses - lists currently enrolled courses")
     print("\tinfo    - show info about a gradeable")
-    print("\tpush    - push gradeable and request autograde [UNSTABLE]")
+    # print("\tpush    - push gradeable and request autograde [UNSTABLE]")
     print("\tinit    - create config file for selected gradeable")
     print("\tclone   - download git repo for selected gradeable [UNSTABLE]")
 
@@ -116,14 +116,14 @@ if __name__ == "__main__":
         state.course = argv[2] if len(argv) >= 3 else ""
         state.gradeable = argv[3] if len(argv) >= 4 else ""
 
-    if mode == "" or state.course == "" or state.gradeable == "":
+    if mode == "":
         show_help()
     elif mode == "courses":
         [print(str(c)) for c in courses()]
     elif mode == "info":
         print(str(get_info()))
-    elif mode == "push":
-        print(str(submit()))
+    #elif mode == "push":
+    #    print(str(submit()))
     elif mode == "clone":
         print(str(clone()))
     elif mode == "init":
